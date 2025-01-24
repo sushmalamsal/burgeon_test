@@ -88,11 +88,6 @@ class ExampleView extends StatelessWidget {
                       itemCount: schools.length,
                       itemBuilder: (context, index) {
                         final school = schools[index];
-                        // final locationParts = school.location?.split(",") ?? [];
-                        // final latitude =
-                        //     double.tryParse(locationParts.first) ?? 0.0;
-                        // final longitude =
-                        //     double.tryParse(locationParts.last) ?? 0.0;
 
                         return Card(
                           margin: const EdgeInsets.symmetric(vertical: 8),
@@ -134,42 +129,41 @@ class ExampleView extends StatelessWidget {
                                   style: const TextStyle(fontSize: 14),
                                 ),
 
-                                //map view
-                                // const SizedBox(height: 10),
-                                // const Text(
-                                //   "Location:",
-                                //   style: TextStyle(
-                                //     fontWeight: FontWeight.bold,
-                                //   ),
-                                // ),
-                                // SizedBox(
-                                //   height: 200,
-                                //   child: GoogleMap(
-                                //     initialCameraPosition: CameraPosition(
-                                //       target: LatLng(latitude, longitude),
-                                //       zoom: 14,
-                                //     ),
-                                //     markers: {
-                                //       Marker(
-                                //         markerId: MarkerId("schoolLocation"),
-                                //         position: LatLng(latitude, longitude),
-                                //       )
-                                //     },
-                                //     onTap: (position) async {
-                                //       final googleMapsUrl =
-                                //           "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
-                                //       if (await canLaunchUrl(
-                                //           Uri.parse(googleMapsUrl))) {
-                                //         await launchUrl(
-                                //           Uri.parse(googleMapsUrl),
-                                //           mode: LaunchMode.externalApplication,
-                                //         );
-                                //       }
-                                //     },
-                                //   ),
-                                // ),
+                                // cover images
+                                if (school.coverImages != null &&
+                                    school.coverImages!.isNotEmpty)
+                                  const SizedBox(height: 10),
+                                Text(
+                                  "Cover Images:",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
 
-                                //social links
+                                if (school.coverImages != null &&
+                                    school.coverImages!.isNotEmpty)
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children:
+                                        school.coverImages!.map((imageUrl) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: CachedNetworkImage(
+                                          imageUrl: imageUrl,
+                                          placeholder: (context, url) =>
+                                              const CircularProgressIndicator(),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                          fit: BoxFit.cover,
+                                          height: 150,
+                                          width: 150,
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+
+                                // Social links
                                 const SizedBox(height: 10),
                                 const Text(
                                   "Social Links:",
